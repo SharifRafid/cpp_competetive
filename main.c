@@ -1,64 +1,42 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 int main()
 {
-    int m;
-    while (1)
+    char *buffer = NULL;
+    size_t buffSize = 0;
+
+    getline(&buffer, &buffSize, stdin);
+    int x;
+    sscanf(buffer, "%d", &x);
+    int c = 0, r = 0, s = 0;
+    for (int i = 0; i < x; i++)
     {
-        char inp[50];
-        if (fgets(inp, sizeof(inp), stdin) == NULL)
+        int d;
+        getline(&buffer, &buffSize, stdin);
+        char chr;
+        sscanf(buffer, "%d %c", &d, &chr);
+        if (chr == 'C')
         {
-            break;
+            c += d;
         }
-        if (strcmp(inp, "\n") == 0)
+        else if (chr == 'R')
         {
-            break;
+            r += d;
         }
-        if (sscanf(inp, "%d", &m) != 1)
+        else if (chr == 'S')
         {
-            break;
-        }
-        int pr = 1;
-        for (int i = 2; i < m; i++)
-        {
-            if (m % i == 0)
-            {
-                pr = 0;
-                break;
-            }
-        }
-        if (pr == 0 || m < 2)
-        {
-            printf("Nada\n");
-        }
-        else
-        {
-            int isSpr = 1;
-            for (int i = 0; inp[i] != '\n' || inp[i] != '\0'; i++)
-            {
-                if (isdigit(inp[i]))
-                {
-                    if (inp[i] == '2' || inp[i] == '3' || inp[i] == '5' || inp[i] == '7')
-                    {
-                    }
-                    else
-                    {
-                        isSpr == 0;
-                        break;
-                    }
-                }
-            }
-            if (isSpr == 1)
-            {
-                printf("Super\n");
-            }
-            else
-            {
-                printf("Primo\n");
-            }
+            s += d;
         }
     }
+    printf("Total: %d cobaias\n", c + r + s);
+    printf("Total de coelhos: %d\n", c);
+    printf("Total de ratos: %d\n", r);
+    printf("Total de sapos: %d\n", s);
+    printf("Percentual de coelhos: %0.2lf %%\n", ((double)c / (double)(c + r + s)) * 100);
+    printf("Percentual de ratos: %0.2lf %%\n", ((double)r / (double)(c + r + s)) * 100);
+    printf("Percentual de sapos: %0.2lf %%\n", ((double)s / (double)(c + r + s)) * 100);
+
     return 0;
 }

@@ -5,18 +5,19 @@
 int main()
 {
     int m;
+    char *buffer = NULL;
+    size_t buffSize = 0;
     while (1)
     {
-        char inp[50];
-        if (fgets(inp, sizeof(inp), stdin) == NULL)
+        if (getline(&buffer, &buffSize, stdin) == -1)
         {
             break;
         }
-        if (strcmp(inp, "\n") == 0)
+        if (strcmp(buffer, "\n") == 0)
         {
             break;
         }
-        if (sscanf(inp, "%d", &m) != 1)
+        if (sscanf(buffer, "%d", &m) != 1)
         {
             break;
         }
@@ -36,16 +37,16 @@ int main()
         else
         {
             int isSpr = 1;
-            for (int i = 0; inp[i] != '\n' || inp[i] != '\0'; i++)
+            for (int i = 0; buffer[i] != '\0'; i++)
             {
-                if (isdigit(inp[i]))
+                if (isdigit(buffer[i]))
                 {
-                    if (inp[i] == '2' || inp[i] == '3' || inp[i] == '5' || inp[i] == '7')
+                    if (buffer[i] == '2' || buffer[i] == '3' || buffer[i] == '5' || buffer[i] == '7')
                     {
                     }
                     else
                     {
-                        isSpr == 0;
+                        isSpr = 0;
                         break;
                     }
                 }
