@@ -1,39 +1,47 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <gtk/gtk.h> 
 
-int main()
-{
-    char *buffer = NULL;
-    size_t buffSize = 0;
+static int counter = 0; 
 
-    while (1)
-    {
-        getline(&buffer, &buffSize, stdin);
+void greet(GtkWidget* widget, gpointer data) 
+{ 
+	// printf equivalent in GTK+ 
+	g_print("Welcome to GTK\n"); 
+	g_print("%s clicked %d times\n", 
+			(char*)data, ++counter); 
+} 
 
-        int n;
-        sscanf(buffer, "%d", &n);
+void destroy(GtkWidget* widget, gpointer data) 
+{ 
+	gtk_main_quit(); 
+} 
 
-        // if (x == 0)
-        // {
-        //     break;
-        // }
+int main(int argc, char* argv[]) 
+{ 
 
-        for (int i = 0; i < n; i++)
-        {
-            int x;
-            getline(&buffer, &buffSize, stdin);
-            sscanf(buffer, "%d", &x);
-            if (x % 2 == 0)
-            {
-                printf("0\n");
-            }else{
-                printf("1\n");
-            }
-        }
+	GtkWidget* window; 
+	GtkWidget* button; 
+	gtk_init(&argc, &argv); 
 
-        break;
-    }
+	window = gtk_window_new(GTK_WINDOW_TOPLEVEL); 
 
-    return 0;
-}
+	g_signal_connect(window, "destroy", 
+					G_CALLBACK(destroy), NULL); 
+	/* Let's set the border width of the window to 20. 
+	* You may play with the value and see the 
+	* difference. */
+	gtk_container_set_border_width(GTK_CONTAINER(window), 20); 
+
+	button = gtk_button_new_with_label("Click Me!"); 
+
+	g_signal_connect(GTK_OBJECT(button), 
+					"clicked", G_CALLBACK(greet), 
+					"button"); 
+
+	gtk_container_add(GTK_CONTAINER(window), button); 
+
+	gtk_widget_show_all(window); 
+
+	gtk_main(); 
+
+	return 0; 
+} 
