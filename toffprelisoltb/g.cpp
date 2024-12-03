@@ -1,34 +1,28 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main(){
+typedef long long ll;
+
+int main()
+{
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
 
-    long long a,b;
-    cin >> a >> b;
-    long long ar[a];
-    for(int i=0;i<a;i++){
-        long long j;
-        cin >> j;
-        ar[i] = j;
+    ll n, x, m, y;
+    cin >> n >> x >> m >> y;
+
+    ll maxAm = 0;
+
+    maxAm = n/x;
+
+    maxAm = max(maxAm, (n/y)*m);
+
+    for(ll p=0,pc=0,pt=0; p<=n/y; p++,pc+=m,pt+=y){
+        maxAm = max(maxAm, (pc+((n-pt)/x)));
     }
-    long long sum = 0;
-    for(int i=0;i<a;i++){
-        sum = 0;
-        for(int j=i;j<i+b;j++){
-            if(j==a){
-                break;
-            }
-            sum += ar[j];
-            
-        }
-        if(i!=0){
-            cout << " ";
-        }
-        cout << max(ar[i],sum);
-    }
-    cout << endl;
+
+    cout << maxAm << endl;
+
     return 0;
 }

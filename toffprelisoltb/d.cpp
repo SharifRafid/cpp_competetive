@@ -1,28 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+typedef long long ll;
+
 int main(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    long long n,x,m,y;
+    ll n,x,m,y;
     cin >> n >> x >> m >> y;
-    int pa = ((n / y) * 3);
-    if(n % y != 0){
-        pa += ((n % y)/x);
-    }
-    int tot = n/x;
-    if(n%x!=0){
-        tot += (((n%x)/y)*m);
-        if(((n%x)%y) != 0){
-            
+
+    ll max = 0;
+    if(n >= y){
+        ll i, cy=m;
+        for(i=y; i<=n; i+=y){
+            ll rem = n-i, cx=0;
+            if(rem >= x){
+                cx = rem/x;
+            }
+            cx+=cy; // CX using as a sum
+            if(cx > max){
+                max = cx;
+            }
+            cy+=m;
         }
+    }else if(n >= x){
+        max = n/x;
     }
 
-    if(pa > tot){
-        cout << pa << endl;
-    }else{
-        cout << tot << endl;
-    }
+    cout << max << endl;
+    
     return 0;
 }
