@@ -13,12 +13,11 @@ void printHorizontalLine(int widths[], int cols) {
 }
 
 int main() {
-    // Reduced column widths
-    int colWidths[] = {6, 8, 8, 8, 10, 10, 10};
+    int colWidths[] = {12, 14, 20, 20, 25, 25, 25};
     
     // Data for 6 rows
     int observations[] = {1, 2, 3, 1, 2, 3};
-    char *quantity[] = {"wire", "wire", "wire", "small", "small", "small"};
+    char *quantity[] = {"wire", "wire", "wire", "small sphere", "small sphere", "small sphere"};
     int lsr[] = {26, 29, 31, 24, 27, 30};
     int csr[] = {16, 19, 21, 14, 17, 20};
     float dx[] = {0.16, 0.19, 0.21, 0.14, 0.17, 0.20};
@@ -30,18 +29,23 @@ int main() {
     // Print table header
     printHorizontalLine(colWidths, 7);
     
-    printf("| %-6s | %-8s | %-8s | %-8s | %-10s | %-10s | %-10s |\n",
-           "No of", "Quantity", "Linear", "Circular", "Fraction", "Total", "Corrected");
-    printf("| %-6s | %-8s | %-8s | %-8s | %-10s | %-10s | %-10s |\n",
-           "obs", "", "Scale", "Scale", "dx=csr", "Scale", "TSR");
-    printf("| %-6s | %-8s | %-8s | %-8s | %-10s | %-10s | %-10s |\n",
-           "", "", "", "", "×Lc", "Reading", "+ Z.C.");
+    printf("| %-12s | %-14s | %-20s | %-20s | %-25s |", 
+           "No of obs", "Quantity", "Linear Scale", "Circular Scale", "Fraction to be");
+    printf(" %-50s    |\n", "Diameter Total Scale Reading");
+    
+    printf("| %-12s | %-14s | %-20s | %-20s | %-25s |", "", "", "", "", "");
+    printf(" %-25s-|-%-25s |\n", "-------------------------", "-------------------------");
+    
+    printf("| %-12s | %-14s | %-20s | %-20s | %-25s  | %-25s | %-25s |\n",
+           "", "", "Reading", "Reading", "added dx=csr×Lc", "Observer", "Corrected");
+    printf("| %-12s | %-14s | %-20s | %-20s | %-25s | %-25s | %-25s |\n",
+           "", "", "", "", "", "TSR LSR + dX", "TSR + Z.C.");
     
     printHorizontalLine(colWidths, 7);
 
     // Print 6 rows
     for(int i = 0; i < rows; i++) {
-        printf("| %-6d | %-8s | %-8d | %-8d | %-10.2f | %-10.2f | %-10.2f |\n",
+        printf("| %-12d | %-14s | %-20d | %-20d | %-25.2f | %-25.2f | %-25.2f |\n",
                observations[i], quantity[i], lsr[i], csr[i], dx[i], tsr[i], corrected[i]);
         if(i < rows - 1) {  // Don't print line after last row
             printf("|");
