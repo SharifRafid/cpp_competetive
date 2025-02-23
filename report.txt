@@ -1,0 +1,101 @@
+Report on E-commerce Order Management System
+Objective
+
+The goal of this project was to develop an E-commerce Order Management System using C programming. The system allows users to create, read, update, and manage order records for an online store. Additionally, the system stores all order records in a text file (orders.txt) to maintain persistent data across program runs.
+Design Overview
+
+The system was designed to manage multiple customer orders, with the following functionalities:
+
+    Add new orders.
+    Display all stored orders.
+    Search for orders by either Order ID or Customer Name.
+    Update the details of existing orders.
+    Store and load the orders from a text file to persist data between program sessions.
+
+Key Components
+
+    Order Structure: A struct named Order was used to store the details of each order. This structure contains:
+        orderID: A unique identifier for the order.
+        customerName: Name of the customer who placed the order.
+        productName: Name of the product ordered.
+        quantity: Number of units of the product ordered.
+        price: Price of the product.
+        orderStatus: Current status of the order (e.g., pending, shipped, completed).
+
+    Data Storage: All order records are stored in a text file (orders.txt). This text file is read at the start of the program to load all existing orders into memory and written back to the file whenever a new order is added or an existing order is updated.
+
+    Menu-Driven User Interface: A simple text-based menu was designed to allow users to select various operations such as adding orders, displaying orders, searching orders, and updating orders. The menu is presented repeatedly until the user chooses to exit.
+
+    File Handling: The program uses file I/O operations to read from and write to the orders.txt file:
+        Loading Orders: When the program starts, it loads the orders from the file into the array.
+        Saving Orders: Every time an order is added or updated, the entire list of orders is written back to the file to keep the data persistent.
+
+Implementation Details
+1. File I/O Operations
+
+    Loading Orders: The program reads from orders.txt line by line using fscanf and fgets functions. It parses the order details and stores them in the orders array.
+
+FILE *file = fopen("orders.txt", "r");
+if(file) {
+    while(fscanf(file, "%d\n", &orders[orderCount].orderID) != EOF) {
+        fgets(orders[orderCount].customerName, MAX_NAME_LENGTH, file);
+        orders[orderCount].customerName[strcspn(orders[orderCount].customerName, "\n")] = 0;
+        fgets(orders[orderCount].productName, MAX_PRODUCT_LENGTH, file);
+        orders[orderCount].productName[strcspn(orders[orderCount].productName, "\n")] = 0;
+        fscanf(file, "%d\n", &orders[orderCount].quantity);
+        fscanf(file, "%f\n", &orders[orderCount].price);
+        fgets(orders[orderCount].orderStatus, MAX_NAME_LENGTH, file);
+        orders[orderCount].orderStatus[strcspn(orders[orderCount].orderStatus, "\n")] = 0;
+        orderCount++;
+    }
+    fclose(file);
+}
+
+Saving Orders: After each modification (adding or updating an order), the program writes the data back to the file using the fprintf function. The entire list of orders is rewritten to ensure that the data remains up-to-date.
+
+    FILE *file = fopen("orders.txt", "w");
+    if(file) {
+        for(int i = 0; i < orderCount; i++) {
+            fprintf(file, "%d\n", orders[i].orderID);
+            fprintf(file, "%s\n", orders[i].customerName);
+            fprintf(file, "%s\n", orders[i].productName);
+            fprintf(file, "%d\n", orders[i].quantity);
+            fprintf(file, "%.2f\n", orders[i].price);
+            fprintf(file, "%s\n", orders[i].orderStatus);
+        }
+        fclose(file);
+    }
+
+2. Adding Orders
+
+The addOrder() function allows users to input order details such as Order ID, customer name, product name, quantity, price, and order status. The new order is then added to the orders array, and the file is updated accordingly.
+3. Searching and Displaying Orders
+
+    Search by Order ID or Customer Name: The program allows users to search orders using either the Order ID or the Customer Name. The searchOrder() function handles both types of searches, displaying the details of the matching order(s).
+
+    if(searchID == 0) {
+        // Search by customer name
+    } else {
+        // Search by order ID
+    }
+
+    Displaying All Orders: The displayOrders() function iterates through all the stored orders and prints each order's details on the screen.
+
+4. Updating Orders
+
+The updateOrder() function allows users to modify an existing order by providing the Order ID. If the order is found, the user can update the details, and the file is rewritten to reflect the changes.
+Features Implemented
+
+    Persistent Data Storage: The orders are saved in a text file (orders.txt), ensuring that data is not lost when the program exits.
+    Basic CRUD Operations: The system supports basic Create, Read, Update, and Delete (CRUD) operations for order management.
+    Search Functionality: Users can search orders either by Order ID or Customer Name.
+
+Challenges and Limitations
+
+    Limited Order Storage: The system can store up to 100 orders. This is a limitation based on the MAX_ORDERS constant. To scale the system for larger datasets, dynamic memory allocation or database management would be required.
+    Error Handling: The system performs basic error handling but could benefit from more detailed checks (e.g., verifying valid inputs for numeric fields, handling file read/write errors more gracefully).
+    Simple Interface: The text-based menu is simple but not visually rich. For a real-world system, a graphical user interface (GUI) or a web-based interface would be more user-friendly.
+
+Conclusion
+
+This project successfully implements a basic E-commerce Order Management System in C. By utilizing file-based storage and basic data structures, the system can manage and maintain a list of orders efficiently. The code is designed to be simple and easy to understand, making it suitable for educational purposes or as a starting point for a more complex system. Further enhancements could include adding features like deleting orders, implementing better error handling, and improving the user interface.
