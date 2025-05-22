@@ -1,90 +1,75 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
 
-struct Node{
+struct Node
+{
     struct Node *prev;
     int data;
     struct Node *next;
 };
 
-void printList(struct Node *head){
+int main()
+{
+    struct Node *head = (struct Node *)malloc(sizeof(struct Node));
+    head->prev = NULL;
+    head->data = 10;
+
+    struct Node *second = (struct Node *)malloc(sizeof(struct Node));
+    second->prev = head;
+    second->data = 11;
+    head->next = second;
+
+    struct Node *third = (struct Node *)malloc(sizeof(struct Node));
+    third->prev = second;
+    third->data = 12;
+    second->next = third;
+
+    struct Node *forth = (struct Node *)malloc(sizeof(struct Node));
+    forth->prev = third;
+    forth->data = 13;
+    forth->next = NULL;
+    third->next = forth;
+
+    struct Node *temp;
+    temp = head;
+    while (temp != NULL)
+    {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    int position;
+    printf("\nEnter Position To Delete : ");
+    scanf("%d", &position);
+
+    temp = head;
+    // 10 11 12 13 
+    for (int i = 1; i <= position-1; i++)
+    {
+        temp = temp->next;
+        if(temp == NULL){
+            printf("Limit Exceeded\n");
+            return 0;
+        }
+    }
+    if (temp->next != NULL)
+    {
+        temp->next->prev = temp->prev;
+    }
+    if(temp->prev != NULL){
+        temp->prev->next = temp->next;
+    }else{
+        temp->next->prev = NULL;
+        head = temp->next;
+    }
+    free(temp);
+
     struct Node *ptr;
     ptr = head;
-    while(ptr != NULL){
+    while (ptr != NULL)
+    {
         printf("%d ", ptr->data);
         ptr = ptr->next;
     }
-    printf("\n");
-}
-
-int main(){
-    struct Node *head, *second, *third;
-    
-    head = (struct Node*) malloc(sizeof(struct Node));
-    second = (struct Node*) malloc(sizeof(struct Node));
-    third = (struct Node*) malloc(sizeof(struct Node));
-
-    head->data = 10;
-    head->prev = NULL;
-    head->next = second;
-
-    second->data = 11;
-    second->prev = head;
-    second->next = third;
-    
-    third->data = 12;
-    third->prev = second;
-    third->next = NULL;
-
-    printList(head);
-
-    struct Node *new;
-    new = (struct Node*) malloc(sizeof(struct Node));
-    new->next = head;
-    new->prev = NULL;
-    new->data = 9;
-
-    head->prev = new;
-    head = new;
-
-    printList(head);
-
-    struct Node *last;
-    last = (struct Node*) malloc(sizeof(struct Node));
-    last->next = NULL;
-    last->data = 13;
-    
-    struct Node *temp;
-    temp = head;
-    while(temp->next != NULL){
-        temp = temp->next;
-    }
-    temp->next = last;
-    last->prev = temp;
-
-    printList(head);
-
-    struct Node *mid;
-    mid = (struct Node*) malloc(sizeof(struct Node));
-    mid->data = 100;
-     
-    int pos;
-    printf("Enter Position To Insert : ");
-    scanf("%d", &pos);
-    
-    struct Node *ptr;
-    ptr = head;
-    for(int i=0; i<pos-1; i++){
-        ptr = ptr->next;
-    }
-
-    mid->next=ptr->next->next;
-    ptr->next->next->prev = mid;
-    ptr->next = mid;
-    mid->prev = ptr;
-
-    printList(head);    
 
     return 0;
-
 }

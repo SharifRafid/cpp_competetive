@@ -3,9 +3,13 @@ using namespace std;
 
 void solve()
 {
-    map<char, bool> m;
-    m['A']=true;
-    cout << m['A'] << endl;
+    int a;
+    cin >> a;
+    if(a%2 == 0 && a > 3){
+        cout << "YES" << endl;
+    }else{
+        cout << "NO" << endl;
+    }
 }
 
 int main()

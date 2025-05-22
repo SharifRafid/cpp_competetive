@@ -1,0 +1,14 @@
+{
+  "dataStructure": {
+    "root": "[metadata, sections, indexes]",
+    "metadata": "[totalSections, date]",
+    "sections": {
+      "sectionKey": "Section identifier (e.g., '62_G')",
+      "c": "Array of classes, each class is [courseCode, day, timeSlot, room, teacher]",
+      "m": "Metadata array [batch, subSection, totalCourses, totalClasses]",
+      "s": "Summary array of courses, each is [code, [teachers], classCount, [schedules]]"
+    },
+    "indexes": "[courseIndex, teacherIndex, batchIndex]",
+    "days": "0=SAT, 1=SUN, 2=MON, 3=TUE, 4=WED, 5=THU, 6=FRI"
+  }
+}
